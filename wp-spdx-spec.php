@@ -46,20 +46,8 @@ class SPDXSpecificationPlugin {
     add_shortcode('spdx-specs', array( $this, 'get_custom_post'));
   }
 
-  function activate() {
-    $this->custom_post_type();
-    flush_rewrite_rules();
-  }
-
-  function deactivate() {
-    flush_rewrite_rules();
-
-  }
-
-  function uninstall() {
-    // delete CPT
-    // delete all the plugin data from the DB
-
+  function register_admin_script() {
+    add_action('admin_enqueue_scripts', array( $this, 'enqueue'));
   }
 
   function custom_post_type() {
@@ -78,17 +66,26 @@ class SPDXSpecificationPlugin {
     }
     return $content;
   }
+
+  function enqueue() {
+    //enqueue all scripts
+    wp_enqueue_style( 'spdxpluginstyle', plugins_url('/assets/style.css', __FILE__));
+    wp_enqueue_style( 'spdxpluginscript', plugins_url('/assets/script.js', __FILE__));
+  }
 }
 
 // Initialize the SPDXSpecificationPlugin class
 if (class_exists('SPDXSpecificationPlugin')) {
   $spdx_spec_plugin = new SPDXSpecificationPlugin();
+  $spdx_spec_plugin->register_admin_script();
 }
 
 // activation
-register_activation_hook( __FILE__, array( $spdx_spec_plugin, 'activate' ));
+require_once plugin_dir_path(__FILE__) . 'inc/plugin-activate.php';
+register_activation_hook( __FILE__, array( 'SPDXPluginActivate', 'activate' ));
 
 //deactivation
-register_deactivation_hook( __FILE__, array( $spdx_spec_plugin, 'deactivate' ));
+require_once plugin_dir_path(__FILE__) . 'inc/plugin-deactivate.php';
+register_deactivation_hook( __FILE__, array( 'SPDXPluginDeactivate', 'deactivate' ));
 
 // uninstall
