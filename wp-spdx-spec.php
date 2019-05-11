@@ -63,7 +63,7 @@ class SPDXSpecificationPlugin {
   }
 
   function custom_post_type() {
-    register_post_type( 'SPDX Specification', ['public' => true, 'label' => 'SPDX Specification', 'supports' => array('title', 'editor', 'thumbnail')] );
+    register_post_type( 'SPDX Specification', ['public' => true, 'label' => 'SPDX Specifications', 'supports' => array('title', 'editor', 'thumbnail')] );
   }
 
   function get_custom_post() {
@@ -72,11 +72,11 @@ class SPDXSpecificationPlugin {
             'post_type' => 'spdxspecification'
     );
     $myPosts = get_posts($args);
+    $content = '';
     foreach ($myPosts as $key => $value) {
-      print '<a href="'.get_permalink($value->ID).'"><strong>'.$value->post_title. '</strong></a><br />';
-      // print $value->post_content. '<hr />';
-
+      $content .= '<a href="'.get_permalink($value->ID).'"><strong>'.$value->post_title. '</strong></a><br />';
     }
+    return $content;
   }
 }
 
