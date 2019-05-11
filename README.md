@@ -11,7 +11,7 @@ A plugin of this sort will help to automatically update the website when new ver
 to custom post content and publish the content to a dedicated page on the WordPress website.
 
 <p align="center">
-#### ==========Features==========
+<b> ==========Features========== </b>
 </p>
 
 1. This plugin get markdown file url like github raw content url.
