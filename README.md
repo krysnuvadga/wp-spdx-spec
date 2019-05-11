@@ -1,4 +1,4 @@
-# wp-spdx-spec
+# SPDX WordPress Specification Plugin
 
 <p align="center">
 <b> ==========WordPress Plugin For SPDX Specification========== </b>
