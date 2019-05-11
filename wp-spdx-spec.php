@@ -41,20 +41,42 @@ if( ! defined('ABSPATH')) {
  */
 class SPDXSpecificationPlugin {
 
+  function __construct() {
+    add_action( 'init', array( $this, 'custom_post_type'));
+    add_shortcode('spdx-specs', array( $this, 'get_custom_post'));
+  }
+
   function activate() {
-    //generated a CPT
-    //flush rewrite rules
+    $this->custom_post_type();
+    flush_rewrite_rules();
   }
 
   function deactivate() {
-    //flush rewrite rules
+    flush_rewrite_rules();
 
   }
 
   function uninstall() {
     // delete CPT
-    // delete all the plugin data from the DB 
+    // delete all the plugin data from the DB
 
+  }
+
+  function custom_post_type() {
+    register_post_type( 'SPDX Specification', ['public' => true, 'label' => 'SPDX Specification', 'supports' => array('title', 'editor', 'thumbnail')] );
+  }
+
+  function get_custom_post() {
+    $args = array(
+            'posts_per_page' => -1,
+            'post_type' => 'spdxspecification'
+    );
+    $myPosts = get_posts($args);
+    foreach ($myPosts as $key => $value) {
+      print '<a href="'.get_permalink($value->ID).'"><strong>'.$value->post_title. '</strong></a><br />';
+      // print $value->post_content. '<hr />';
+
+    }
   }
 }
 
